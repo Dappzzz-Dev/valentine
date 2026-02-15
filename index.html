@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a0610">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>💌 Buat Kamu — Valentine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- MUSIC PROGRESS BAR -->
+<div class="music-bar" id="music-bar"></div>
+
+<!-- MUSIC PLAYER -->
+<div id="music-player">
+  <span class="music-icon">🎵</span>
+  <div id="music-info">
+    <div id="music-title">Teenage Dream</div>
+    <div id="music-artist">Stephen Dawes</div>
+  </div>
+  <button id="music-toggle" onclick="toggleMute()">🎵</button>
+</div>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">💌 Disalin!</div>
+
+<!-- ============ SCREEN 1: INTRO ============ -->
+<div class="screen" id="screen-intro">
+  <span class="heart-big">💗</span>
+  <p class="intro-title">Ada yang <em>spesial</em><br>buat kamu</p>
+  <p class="intro-sub">Hari ini tepat 14 Februari ✨</p>
+  <button class="btn-primary" onclick="goTo('game')">Buka Sekarang 🎁</button>
+  <div class="progress-dots">
+    <div class="dot active" id="dot-0"></div>
+    <div class="dot" id="dot-1"></div>
+    <div class="dot" id="dot-2"></div>
+    <div class="dot" id="dot-3"></div>
+    <div class="dot" id="dot-4"></div>
+  </div>
+</div>
+
+<!-- ============ SCREEN 2: GAME ============ -->
+<div class="screen hidden" id="screen-game">
+  <div class="game-header">
+    <p class="game-title">Main Dulu Yuk 🎴</p>
+    <p class="game-sub">Temukan 4 pasang kartu yang cocok!</p>
+  </div>
+  <div class="card-grid" id="cardGrid"></div>
+  <div class="progress-dots" style="margin-top: 28px;">
+    <div class="dot" id="dot2-0"></div>
+    <div class="dot active" id="dot2-1"></div>
+    <div class="dot" id="dot2-2"></div>
+    <div class="dot" id="dot2-3"></div>
+    <div class="dot" id="dot2-4"></div>
+  </div>
+</div>
+
+<!-- ============ SCREEN 3: MESSAGE ============ -->
+<div class="screen hidden" id="screen-message">
+  <div class="envelope-wrap">
+    <span class="envelope">💌</span>
+  </div>
+  <p class="msg-label">For you, My favorite person</p>
+  <h2 class="msg-title">Terima kasih sudah ada</h2>
+  <p class="msg-body">
+    "Dari sekian banyak orang di dunia,<br>
+    aku bersyukur bisa mengenalmu,<br>
+    denganmu hidupku mengenal warna.<br>
+    Kamu akan tetap jadi orang yang spesial dalam hidupku."
+  </p>
+  <button class="btn-gold" onclick="goTo('gift')">Buka Hadiahmu 🎁</button>
+  <div class="progress-dots">
+    <div class="dot" id="dot3-0"></div>
+    <div class="dot" id="dot3-1"></div>
+    <div class="dot active" id="dot3-2"></div>
+    <div class="dot" id="dot3-3"></div>
+    <div class="dot" id="dot3-4"></div>
+  </div>
+</div>
+
+<!-- ============ SCREEN 4: GIFT ============ -->
+<div class="screen hidden" id="screen-gift">
+  <h2 class="gift-title">Ada kado buat kamu ✨</h2>
+  <p class="gift-sub">kado ini mungkin sederhana tapi kuharap kamu suka</p>
+  <div class="gift-area">
+    <span class="gift-box" id="giftBox" onclick="openGift()">🎁</span>
+    <p class="gift-hint">Tap untuk buka</p>
+  </div>
+  <div class="progress-dots">
+    <div class="dot" id="dot4-0"></div>
+    <div class="dot" id="dot4-1"></div>
+    <div class="dot" id="dot4-2"></div>
+    <div class="dot active" id="dot4-3"></div>
+    <div class="dot" id="dot4-4"></div>
+  </div>
+</div>
+
+<!-- ============ SCREEN 5: FINAL ============ -->
+<div class="screen hidden" id="screen-final">
+  <div class="final-hearts">
+    <span class="final-heart">💖</span>
+    <span class="final-heart">🌹</span>
+    <span class="final-heart">💖</span>
+    <span class="final-heart">🌹</span>
+    <span class="final-heart">💖</span>
+  </div>
+  <h2 class="final-title">Happy Valentine's Day<em>Sayangg</em></h2>
+  <p class="final-body">
+    Aku harap aku masih bisa melihat<br>
+    kamu mencapai mimpi mimpi, melihat kamu berkembang.<br>
+     Dan aku harap kita bisa terus sama sama hingga akhir 💗<br>
+  </p>
+  <p class="from-signature">— from someone who loves you</p>
+  <div class="progress-dots">
+    <div class="dot" id="dot5-0"></div>
+    <div class="dot" id="dot5-1"></div>
+    <div class="dot" id="dot5-2"></div>
+    <div class="dot" id="dot5-3"></div>
+    <div class="dot active" id="dot5-4"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

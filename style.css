@@ -1,0 +1,698 @@
+:root {
+  --rose: #c8415b;
+  --rose-light: #f2899a;
+  --rose-pale: #fce8ec;
+  --cream: #fffaf8;
+  --deep: #2a0e18;
+  --gold: #d4956a;
+  --bg: #1a0610;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--cream);
+}
+
+/* ===================== PARTICLES ===================== */
+#particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  font-size: 1rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===================== SCREENS ===================== */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  padding: 24px;
+}
+
+.screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.97);
+}
+
+/* ===================== SCREEN 1: INTRO ===================== */
+#screen-intro {
+  background: radial-gradient(ellipse at center, #3a0e22 0%, var(--bg) 70%);
+  text-align: center;
+}
+
+.heart-big {
+  font-size: 5rem;
+  animation: heartbeat 1.4s ease-in-out infinite;
+  display: block;
+  margin-bottom: 20px;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  56% { transform: scale(1); }
+}
+
+.intro-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.2;
+  color: var(--rose-light);
+  margin-bottom: 12px;
+}
+
+.intro-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.intro-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 40px;
+  letter-spacing: 0.03em;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--rose), #8b1a33);
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 30px rgba(200, 65, 91, 0.4);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(200,65,91,0.5); }
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:active { transform: translateY(0); }
+
+/* ===================== SCREEN 2: GAME ===================== */
+#screen-game {
+  background: radial-gradient(ellipse at top, #2e0a1c 0%, var(--bg) 65%);
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.game-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--rose-light);
+  margin-bottom: 6px;
+}
+
+.game-sub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.card {
+  aspect-ratio: 1;
+  perspective: 600px;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 14px;
+}
+
+.card.flipped .card-inner { transform: rotateY(180deg); }
+.card.matched .card-inner { transform: rotateY(180deg); }
+.card.matched .card-front { background: linear-gradient(135deg, #8b1a33, var(--rose)); box-shadow: 0 0 20px rgba(200,65,91,0.5); }
+
+.card-back, .card-front {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #2d0f1e, #1a0610);
+  border: 1.5px solid rgba(200, 65, 91, 0.25);
+  color: var(--rose);
+  font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.card-front {
+  background: linear-gradient(135deg, #3d1225, #5a1830);
+  border: 1.5px solid rgba(200, 65, 91, 0.4);
+  transform: rotateY(180deg);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* ===================== SCREEN 3: MESSAGE ===================== */
+#screen-message {
+  background: radial-gradient(ellipse at center, #3a0e22 0%, var(--bg) 70%);
+  text-align: center;
+}
+
+.envelope-wrap {
+  margin-bottom: 32px;
+}
+
+.envelope {
+  font-size: 4rem;
+  display: block;
+  animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.msg-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.msg-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--rose-light);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.msg-body {
+  max-width: 340px;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 36px;
+  font-style: italic;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #c17d45, #d4956a);
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 6px 24px rgba(212,149,106,0.35);
+}
+
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(212,149,106,0.5); }
+
+/* ===================== SCREEN 4: GIFT ===================== */
+#screen-gift {
+  background: radial-gradient(ellipse at center, #1e0d2e 0%, var(--bg) 70%);
+  text-align: center;
+}
+
+.gift-area {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.gift-box {
+  font-size: 5.5rem;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s;
+  animation: float 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 10px 30px rgba(212,149,106,0.3));
+}
+
+.gift-box:hover { transform: scale(1.1); }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.gift-hint {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+}
+
+.gift-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+
+.gift-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 36px;
+}
+
+.gift-explode {
+  animation: explode 0.6s ease-out forwards !important;
+}
+
+@keyframes explode {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3) rotate(-10deg); }
+  60% { transform: scale(0.8) rotate(15deg); }
+  100% { transform: scale(0) rotate(30deg); opacity: 0; }
+}
+
+/* ===================== SCREEN 5: FINAL ===================== */
+#screen-final {
+  background: radial-gradient(ellipse at center, #3a0e22 0%, #0d0008 70%);
+  text-align: center;
+}
+
+.final-hearts {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+.final-heart {
+  animation: pop 0.5s ease-out backwards;
+}
+
+.final-heart:nth-child(1) { animation-delay: 0.1s; }
+.final-heart:nth-child(2) { animation-delay: 0.2s; }
+.final-heart:nth-child(3) { animation-delay: 0.3s; }
+.final-heart:nth-child(4) { animation-delay: 0.4s; }
+.final-heart:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes pop {
+  0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+  80% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.final-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  color: var(--rose-light);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.final-title em {
+  color: var(--gold);
+  font-style: italic;
+  display: block;
+}
+
+.final-body {
+  max-width: 320px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 40px;
+}
+
+.from-signature {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+  animation: fadeInUp 1.2s ease 0.6s both;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================== CONFETTI ===================== */
+.confetti-piece {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===================== PROGRESS DOTS ===================== */
+.progress-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active {
+  background: var(--rose);
+  transform: scale(1.3);
+}
+
+/* ===================== TOAST ===================== */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: rgba(44, 14, 28, 0.95);
+  border: 1px solid rgba(200,65,91,0.3);
+  color: var(--cream);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  z-index: 999;
+  transition: transform 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ===================== RIPPLE ===================== */
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(200,65,91,0.3);
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+  animation: ripple 0.7s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ===================== MUSIC PLAYER ===================== */
+#music-player {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(26, 6, 16, 0.85);
+  border: 1px solid rgba(200, 65, 91, 0.25);
+  border-radius: 50px;
+  padding: 10px 16px 10px 12px;
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+  max-width: 220px;
+}
+
+#music-player.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.music-icon {
+  font-size: 1.1rem;
+  animation: spinNote 3s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spinNote {
+  0%, 100% { transform: rotate(-12deg) scale(1); }
+  50% { transform: rotate(12deg) scale(1.1); }
+}
+
+#music-info {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+#music-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+#music-artist {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.track-slide {
+  animation: slideInTrack 0.4s ease forwards;
+}
+
+@keyframes slideInTrack {
+  0% { opacity: 0; transform: translateX(10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+#music-toggle {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  line-height: 1;
+  box-shadow: none !important;
+}
+
+#music-toggle:hover { transform: scale(1.2); }
+#music-toggle.muted { opacity: 0.5; }
+
+.music-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  z-index: 101;
+  transition: width 0.5s linear;
+  opacity: 0.6;
+}
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+
+/* Touch devices — remove hover effects yang bikin delay */
+@media (hover: none) {
+  .btn-primary:hover,
+  .btn-gold:hover { transform: none; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-gold:active { transform: scale(0.97); }
+  .card:active .card-inner { }
+}
+
+/* Small phones (≤380px) */
+@media (max-width: 380px) {
+  .screen { padding: 16px; }
+
+  .heart-big { font-size: 3.5rem; margin-bottom: 14px; }
+  .intro-title { font-size: 1.75rem; }
+  .intro-sub { font-size: 0.85rem; margin-bottom: 28px; }
+  .btn-primary { padding: 14px 32px; font-size: 0.9rem; }
+
+  .game-title { font-size: 1.3rem; }
+  .game-sub { font-size: 0.78rem; }
+  .game-header { margin-bottom: 18px; }
+  .card-grid { gap: 8px; max-width: 280px; }
+  .card-back, .card-front { font-size: 1.4rem; }
+
+  .envelope { font-size: 3rem; }
+  .envelope-wrap { margin-bottom: 20px; }
+  .msg-title { font-size: 1.6rem; }
+  .msg-body { font-size: 0.82rem; line-height: 1.65; margin-bottom: 24px; }
+  .btn-gold { padding: 12px 28px; font-size: 0.88rem; }
+
+  .gift-title { font-size: 1.5rem; }
+  .gift-sub { font-size: 0.8rem; margin-bottom: 20px; }
+  .gift-box { font-size: 4rem; }
+  .gift-area { margin-bottom: 20px; }
+
+  .final-hearts { font-size: 1.2rem; margin-bottom: 16px; }
+  .final-title { font-size: 1.8rem; }
+  .final-body { font-size: 0.82rem; margin-bottom: 28px; }
+  .from-signature { font-size: 0.9rem; }
+
+  #music-player { bottom: 14px; right: 14px; padding: 8px 12px 8px 10px; max-width: 180px; }
+  #music-title { font-size: 0.65rem; }
+  #music-artist { font-size: 0.58rem; }
+  .music-icon { font-size: 0.95rem; }
+
+  .progress-dots { margin-top: 20px; }
+}
+
+/* Normal phones (381px – 480px) */
+@media (min-width: 381px) and (max-width: 480px) {
+  .screen { padding: 20px; }
+
+  .heart-big { font-size: 4rem; margin-bottom: 16px; }
+  .intro-title { font-size: 2rem; }
+  .intro-sub { margin-bottom: 32px; }
+
+  .card-grid { max-width: 310px; gap: 10px; }
+
+  .envelope { font-size: 3.4rem; }
+  .msg-title { font-size: 1.8rem; }
+  .msg-body { font-size: 0.88rem; }
+
+  .gift-box { font-size: 4.8rem; }
+  .gift-title { font-size: 1.7rem; }
+
+  .final-title { font-size: 2rem; }
+  .final-body { font-size: 0.85rem; }
+}
+
+/* Landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .screen { justify-content: flex-start; padding: 12px 24px; overflow-y: auto; }
+
+  .heart-big { font-size: 2.5rem; margin-bottom: 8px; }
+  .intro-title { font-size: 1.5rem; }
+  .intro-sub { margin-bottom: 16px; }
+
+  .envelope-wrap { margin-bottom: 12px; }
+  .envelope { font-size: 2.5rem; }
+  .msg-title { font-size: 1.5rem; margin-bottom: 10px; }
+  .msg-body { margin-bottom: 16px; font-size: 0.82rem; }
+
+  .gift-box { font-size: 3.5rem; }
+  .gift-title { font-size: 1.4rem; }
+  .gift-sub { margin-bottom: 12px; font-size: 0.8rem; }
+  .gift-area { margin-bottom: 14px; }
+
+  .card-grid { max-width: 260px; gap: 7px; }
+  .game-header { margin-bottom: 12px; }
+
+  .final-hearts { margin-bottom: 10px; font-size: 1.1rem; }
+  .final-title { font-size: 1.6rem; }
+  .final-body { font-size: 0.8rem; margin-bottom: 16px; }
+
+  .progress-dots { margin-top: 14px; }
+
+  #music-player { bottom: 10px; right: 10px; }
+}
+
+/* Tablet (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .card-grid { max-width: 340px; }
+  .intro-title { font-size: 2.5rem; }
+  .msg-title { font-size: 2.2rem; }
+  .final-title { font-size: 2.6rem; }
+}
+
+/* Large screens / desktop — keep centered and not too wide */
+@media (min-width: 769px) {
+  .screen { padding: 40px; }
+  .card-grid { max-width: 380px; gap: 14px; }
+  .msg-body { font-size: 1rem; }
+  .final-body { font-size: 0.95rem; }
+}
+
+/* Safe area for notch phones (iPhone X+) */
+@supports (padding: env(safe-area-inset-bottom)) {
+  #music-player {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+  }
+  .music-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
